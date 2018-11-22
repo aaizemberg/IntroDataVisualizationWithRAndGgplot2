@@ -20,10 +20,21 @@
 # titled "An Introduction to Data Visualization with R and ggplot2" 
 # github: https://github.com/datasciencedojo/IntroDataVisualizationWithRAndGgplot2
 #
+
+#
+# Podemos instalar solo ggplot2, pero mejor instalen tidyverse
+#
+
+# The easiest way to get ggplot2 is to install the whole tidyverse:
+install.packages("tidyverse")
+
+# Alternatively, install just ggplot2:
+install.packages("ggplot2")
+
 library(ggplot2)
 
 # Load Titanic titanicing data for analysis. Open in spreadsheet view.
-url = 'https://raw.githubusercontent.com/aaizemberg/IntroDataVisualizationWithRAndGgplot2/gh-pages/titanic.csv'
+url = 'https://raw.githubusercontent.com/datasciencedojo/IntroDataVisualizationWithRAndGgplot2/master/titanic.csv'
 titanic <- read.csv( url , stringsAsFactors = FALSE)
 View(titanic)
 
@@ -35,6 +46,7 @@ titanic$Pclass <- as.factor(titanic$Pclass)
 titanic$Survived <- as.factor(titanic$Survived)
 titanic$Sex <- as.factor(titanic$Sex)
 titanic$Embarked <- as.factor(titanic$Embarked)
+
 
 #
 # We'll start our visual analysis of the data focusing on questions
@@ -61,6 +73,7 @@ table(titanic$Survived)
 
 #
 #
+install.packages("ggthemes")
 library(ggthemes)
 
 # Add some customization for labels and theme.
@@ -192,3 +205,31 @@ ggplot(titanic, aes(x = Age, fill = Survived)) +
   labs(y = "Age",
        x = "Survived",
        title = "Titanic Survival Rates by Age, Pclass and Sex")
+
+
+# ggplot2 y sus extensiones
+#
+# http://www.ggplot2-exts.org/gallery/
+#
+# vamos a probar una extension que se llama 'ggalluvial'
+
+install.packages("ggalluvial")
+library("ggalluvial")
+
+titanic_wide <- data.frame(Titanic)
+head(titanic_wide)
+
+ggplot(data = titanic_wide,
+       aes(axis1 = Class, axis2 = Sex, axis3 = Age,
+           y = Freq)) +
+  scale_x_discrete(limits = c("Class", "Sex", "Age"), expand = c(.1, .05)) +
+  xlab("Demographic") +
+  geom_alluvium(aes(fill = Survived)) +
+  geom_stratum() + geom_text(stat = "stratum", label.strata = TRUE) +
+  theme_minimal() +
+  ggtitle("passengers on the maiden voyage of the Titanic",
+          "stratified by demographics and survival")
+
+# mas informacion sobre este paquete
+#
+vignette(topic = "ggalluvial", package = "ggalluvial")
