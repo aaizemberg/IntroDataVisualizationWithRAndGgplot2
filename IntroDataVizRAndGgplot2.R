@@ -22,7 +22,6 @@
 #
 library(ggplot2)
 
-
 # Load Titanic titanicing data for analysis. Open in spreadsheet view.
 url = 'https://raw.githubusercontent.com/aaizemberg/IntroDataVisualizationWithRAndGgplot2/gh-pages/titanic.csv'
 titanic <- read.csv( url , stringsAsFactors = FALSE)
@@ -36,7 +35,6 @@ titanic$Pclass <- as.factor(titanic$Pclass)
 titanic$Survived <- as.factor(titanic$Survived)
 titanic$Sex <- as.factor(titanic$Sex)
 titanic$Embarked <- as.factor(titanic$Embarked)
-
 
 #
 # We'll start our visual analysis of the data focusing on questions
