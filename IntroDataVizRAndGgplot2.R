@@ -18,16 +18,18 @@
 #
 # This R source code file corresponds to the Data Science Dojo webinar 
 # titled "An Introduction to Data Visualization with R and ggplot2" 
+# github: https://github.com/datasciencedojo/IntroDataVisualizationWithRAndGgplot2
 #
-
-#install.packages("ggplot2")
 library(ggplot2)
 
 
 # Load Titanic titanicing data for analysis. Open in spreadsheet view.
-titanic <- read.csv("titanic.csv", stringsAsFactors = FALSE)
+url = 'https://raw.githubusercontent.com/aaizemberg/IntroDataVisualizationWithRAndGgplot2/gh-pages/titanic.csv'
+titanic <- read.csv( url , stringsAsFactors = FALSE)
 View(titanic)
 
+# str --> Compactly Display the Structure of an Arbitrary R Object
+str(titanic)
 
 # Set up factors.
 titanic$Pclass <- as.factor(titanic$Pclass)
@@ -51,19 +53,42 @@ titanic$Embarked <- as.factor(titanic$Embarked)
 # As Survived is a factor (i.e., categorical) variable, a bar chart 
 # is a great visualization to use.
 #
-ggplot(titanic, aes(x = Survived)) + 
-  geom_bar()
+ggplot(titanic, aes(x = Survived)) + geom_bar()
 
 # If you really want percentages.
 prop.table(table(titanic$Survived))
 
+# la tabla sin los porcentajes
+table(titanic$Survived)
+
+#
+#
+library(ggthemes)
+
 # Add some customization for labels and theme.
+#
+# 
 ggplot(titanic, aes(x = Survived)) + 
-  theme_bw() +
+  theme_excel() +
   geom_bar() +
   labs(y = "Passenger Count",
        title = "Titanic Survival Rates")
 
+# theme_wsj Wall Street Journal
+#
+ggplot(titanic, aes(x = Survived)) + 
+  theme_wsj() +
+  geom_bar() +
+  labs(y = "Passenger Count",
+       title = "Titanic Survival Rates")
+
+# theme_tufte 
+#
+ggplot(titanic, aes(x = Survived)) + 
+  theme_tufte() +
+  geom_bar() +
+  labs(y = "Passenger Count",
+       title = "Titanic Survival Rates")
 
 #
 # Second question - What was the survival rate by gender? 
@@ -103,8 +128,6 @@ ggplot(titanic, aes(x = Sex, fill = Survived)) +
        title = "Titanic Survival Rates by Pclass and Sex")
 
 
-
-
 #
 # Next, we'll move on to visualizing continuous (i.e., numeric)
 # data using ggplot2. We'll explore visualizations of single 
@@ -121,7 +144,7 @@ ggplot(titanic, aes(x = Sex, fill = Survived)) +
 #
 ggplot(titanic, aes(x = Age)) +
   theme_bw() +
-  geom_histogram(binwidth = 5) +
+  geom_histogram(binwidth = 20) +
   labs(y = "Passenger Count",
        x = "Age (binwidth = 5)",
        title = "Titanic Age Distribtion")
@@ -171,4 +194,3 @@ ggplot(titanic, aes(x = Age, fill = Survived)) +
   labs(y = "Age",
        x = "Survived",
        title = "Titanic Survival Rates by Age, Pclass and Sex")
-
